@@ -10,13 +10,15 @@ import android.view.accessibility.AccessibilityEvent;
 
 public class TouchAccessibilityService extends AccessibilityService {
 
+    // NOTE this works well, but only if the service is specifically manually enabled on each device
+
     public TouchAccessibilityService() {
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d("TAG************", "onCreate SERVICE");
+        Log.d(Constants.TAG, "onCreate");
     }
 
     @Override
@@ -36,7 +38,7 @@ public class TouchAccessibilityService extends AccessibilityService {
 
     @Override
     public void onServiceConnected() {
-        Log.d("TAG************", "onServiceConnected");
+        Log.d(Constants.TAG, "onServiceConnected");
 
         AccessibilityServiceInfo info = new AccessibilityServiceInfo();
         info.flags = AccessibilityServiceInfo.DEFAULT;
@@ -48,14 +50,11 @@ public class TouchAccessibilityService extends AccessibilityService {
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
-        Log.d("TAG*************", "access event:" + accessibilityEvent);
+        Log.d(Constants.TAG, "access event:" + accessibilityEvent);
     }
 
     @Override
     public void onInterrupt() {
-
     }
-
-
 
 }

@@ -5,6 +5,6 @@ package com.totsp.touchrecorder;
  */
 public class Constants {
 
-    public static final String TAG = "TouchRecorder";
+    public static final String TAG = "TouchRecorderOverlay";
 
 }

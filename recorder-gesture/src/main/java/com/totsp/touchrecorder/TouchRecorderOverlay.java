@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 
-/**
- * Created by cecollins on 4/5/15.
- */
 public class TouchRecorderOverlay extends GestureOverlayView {
+
+    // NOTE this works, but doesn't capture the view ids, just all MotionEvents
+    // would have to track view bounds and check which events fall in bounds separately
 
     // TODO measure performance of overlay
     // TODO validate that multiple gesture overlays work fine together
@@ -31,9 +31,6 @@ public class TouchRecorderOverlay extends GestureOverlayView {
         //Preconditions.checkNotNull(rootView);
 
         TouchRecorderOverlay overlay = new TouchRecorderOverlay(context);
-        ///int viewId = View.generateViewId();
-        ///Log.i(Constants.TAG, "OVERLAY ID:" + viewId);
-        ///overlay.setId(viewId);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
@@ -44,16 +41,12 @@ public class TouchRecorderOverlay extends GestureOverlayView {
         rootView.removeView(childZero);
         overlay.addView(childZero);
         rootView.addView(overlay, 0);
-
-        //rootView.addView(overlay, 0);
     }
     
     public static void injectTouchRecorderViewAsRoot(Activity activity) {
         //final ViewGroup viewGroup = (ViewGroup) activity.findViewById(android.R.id.content);
-
-        // decorview includes action bar -- see hierarchyviewer
+        //decorview includes action bar -- see hierarchyviewer
         final ViewGroup viewGroup = (ViewGroup) activity.getWindow().getDecorView();
-
         injectTouchRecorderView(activity, viewGroup);
     }
     

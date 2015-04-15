@@ -24,6 +24,8 @@ import android.widget.LinearLayout;
 
 public class MainActivity extends ActionBarActivity {
 
+    private static final String TAG = "Example-Main";
+
     // TODO reset after config changes
     // TODO currently not tracking layouts/viewgroups, doesn't support drag-n-drop etc on groups
 
@@ -62,11 +64,9 @@ public class MainActivity extends ActionBarActivity {
 
     // recursively adds a touch listener to every VIEW (but skips viewgroups)
     private void addOnTouchListener(View v) {
-
-        Log.d("TAG***", "addOnTouchListener:" + v);
-
+        Log.d(TAG, "addOnTouchListener:" + v);
         if (v instanceof ViewGroup) {
-            Log.d("TAG***", "found viewgroup:" + v);
+            Log.d(TAG, "found viewgroup:" + v);
             ViewGroup vg = (ViewGroup) v;
             int childCount = vg.getChildCount();
             for (int i = 0; i < childCount; i++) {
@@ -74,6 +74,9 @@ public class MainActivity extends ActionBarActivity {
                 addOnTouchListener(vi);
             }
         } else {
+            // using listener, not handler
+            // note that this gets the event FIRST before view.onTouchEvent
+            // (not sure what happens yet if there are multiple ontouchlisteners)
             v.setOnTouchListener(createOnTouchListener());
         }
     }
@@ -88,36 +91,23 @@ public class MainActivity extends ActionBarActivity {
                                        .commit();
         }
 
+        Log.d(TAG, "MainActivity onCreate");
+
         // inject touch recorder
         //injectTouchRecorderView(this);
-
-        Log.d("TAG ************", "MainActivity onCreate");
-
 
         //ViewGroup rootView = (ViewGroup) getWindow().getDecorView();
         final ViewGroup contentView = (ViewGroup) this.findViewById(android.R.id.content);
 
-        /*
-        // easiest way to get VIEW and events is OnTouchListener
-        contentView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event){
-
-                Log.d("onTouch", "view:" + v.getId() + " event:" + event);
-
-                return false;
-            }
-        });
-        */
-
 
         // view tree observer can tell focus changes and when views are added, etc
+        // (and also knows when layout has completed)
 
         ViewTreeObserver vto = contentView.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                Log.d("vto layout******", "global layout");
+                Log.d(TAG, "global layout");
                 addOnTouchListener(contentView);
             }
         });
@@ -143,25 +133,25 @@ public class MainActivity extends ActionBarActivity {
         return super.onCreateView(name, context, attrs);
     }
 
-    // ON THE WAY DOWN CONSUMED HERE
+    // touch notes
+    // activity, view, viewgroup
+    // activity dispatches motion events to child views, in reverse order of hierarchy
+    // if no views handle the event (either with listener, setOnTouchListener, or with handler, onTouchEvent) it then goes to Activity.onTouchEvent
+
+    // ON THE WAY DOWN DISPATCHED HERE
     // goes to each view
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-
         ///Log.d("MA***", "dispatch touch event:" + ev);
-
         return super.dispatchTouchEvent(ev);
     }
 
-    // ON THE WAY BACK UP, USUALLY NOT USED
+    // ON THE WAY UP CONSUMED/USED HERE (usually in views)
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-
         ///Log.d("MA***", "on touch event:" + ev);
-
         return super.onTouchEvent(ev);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
