@@ -1,4 +1,4 @@
-package com.totsp.example;
+package com.example.accessibilityrecorder;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

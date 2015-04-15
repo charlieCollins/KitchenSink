@@ -1,1 +1,1 @@
-include ':touchrecorder', ':example'
+include ':recorder-gesture', ':recorder-accessibility', ':example'

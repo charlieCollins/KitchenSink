@@ -1,0 +1,20 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.accessibilityrecorder">
+
+    <application android:allowBackup="true" android:label="@string/app_name">
+
+        <!-- include in app that is using lib? -->
+        <!--
+        <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE"/>
+        <service
+            android:name="com.totsp.example.TouchAccessibilityService" android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data android:name="android.accessibilityservice" android:resource="@xml/accessibility_service_config" />
+        </service>
+        -->
+
+    </application>
+
+</manifest>
