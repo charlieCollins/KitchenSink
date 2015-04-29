@@ -30,6 +30,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.0.0'
     //compile project(':recorder-gesture')
     //compile project(':recorder-accessibility')
+    compile project(':recorder-listener')
 
 
 

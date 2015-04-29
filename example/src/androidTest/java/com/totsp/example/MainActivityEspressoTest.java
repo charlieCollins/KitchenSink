@@ -14,7 +14,7 @@ import android.util.Log;
 
 
 @LargeTest
- public class HelloWorldEspressoTest extends ActivityInstrumentationTestCase2<MainActivity> {
+ public class MainActivityEspressoTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
 
     // example Button press MotionEvent
@@ -26,7 +26,7 @@ D/onTouch ( 4810): view:2131296324 event:MotionEvent { action=ACTION_UP, id[0]=0
      */
 
 
-    public HelloWorldEspressoTest() {
+    public MainActivityEspressoTest() {
         super(MainActivity.class);
     }
 

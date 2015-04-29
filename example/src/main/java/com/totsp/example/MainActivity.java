@@ -24,63 +24,6 @@ import android.widget.LinearLayout;
 
 public class MainActivity extends ActionBarActivity {
 
-    private static final String TAG = "Example-Main";
-
-    // TODO reset after config changes
-    // TODO currently not tracking layouts/viewgroups, doesn't support drag-n-drop etc on groups
-
-    /*
-    public static void injectTouchRecorderView(Activity activity) {
-        //Preconditions.checkNotNull(context);
-        //Preconditions.checkNotNull(rootView);
-
-        TouchViewGroup touchViewGroup = new TouchViewGroup(activity, null);
-        ///int viewId = View.generateViewId();
-        ///Log.i(Constants.TAG, "OVERLAY ID:" + viewId);
-        ///overlay.setId(viewId);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        touchViewGroup.setLayoutParams(layoutParams);
-        touchViewGroup.setAlpha(0);
-
-        ViewGroup rootView = (ViewGroup) activity.getWindow().getDecorView();
-        View childZero = rootView.getChildAt(0);
-        rootView.removeView(childZero);
-        touchViewGroup.addView(childZero);
-        rootView.addView(touchViewGroup, 0);
-    }
-    */
-
-    private static View.OnTouchListener createOnTouchListener() {
-        return new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                Log.d("onTouch", "view:" + v.getId() + " event:" + event);
-                return false;
-            }
-        };
-    }
-
-    // recursively adds a touch listener to every VIEW (but skips viewgroups)
-    private void addOnTouchListener(View v) {
-        Log.d(TAG, "addOnTouchListener:" + v);
-        if (v instanceof ViewGroup) {
-            Log.d(TAG, "found viewgroup:" + v);
-            ViewGroup vg = (ViewGroup) v;
-            int childCount = vg.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                View vi = vg.getChildAt(i);
-                addOnTouchListener(vi);
-            }
-        } else {
-            // using listener, not handler
-            // note that this gets the event FIRST before view.onTouchEvent
-            // (not sure what happens yet if there are multiple ontouchlisteners)
-            v.setOnTouchListener(createOnTouchListener());
-        }
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,40 +34,7 @@ public class MainActivity extends ActionBarActivity {
                                        .commit();
         }
 
-        Log.d(TAG, "MainActivity onCreate");
-
-        // inject touch recorder
-        //injectTouchRecorderView(this);
-
-        //ViewGroup rootView = (ViewGroup) getWindow().getDecorView();
-        final ViewGroup contentView = (ViewGroup) this.findViewById(android.R.id.content);
-
-
-        // view tree observer can tell focus changes and when views are added, etc
-        // (and also knows when layout has completed)
-
-        ViewTreeObserver vto = contentView.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                Log.d(TAG, "global layout");
-                addOnTouchListener(contentView);
-            }
-        });
-        /*
-        vto.addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
-            @Override
-            public void onGlobalFocusChanged(View oldFocus, View newFocus) {
-                Log.d("GLOBAL focus change******", "old:" + oldFocus.getId() + " new:" + newFocus.getId());
-            }
-        });
-        vto.addOnWindowFocusChangeListener(new ViewTreeObserver.OnWindowFocusChangeListener() {
-            @Override
-            public void onWindowFocusChanged(boolean hasFocus) {
-                Log.d("WINDOW focus change******", "" + hasFocus);
-            }
-        });
-        */
+        Log.d(Constants.TAG, "MainActivity onCreate");
     }
 
 
